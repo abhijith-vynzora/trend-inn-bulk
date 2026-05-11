@@ -23,12 +23,19 @@ def home(request):
     return render(request, "frontend/index.html", {
         "testimonials": Testimonial.objects.all()[:6],
         "blogs": Blog.objects.all()[:4],
+        "categories": Category.objects.all()[:4],
+        "recent_products": Product.objects.select_related('category', 'seller').all()[:4],
     })
 
 
 def about(request):
     return render(request, "frontend/about.html", {
         "team": TeamMember.objects.all()[:4],
+        "stats": {
+            'products': Product.objects.count(),
+            'sellers': WholesaleSeller.objects.count(),
+            'categories': Category.objects.count()
+        }
     })
 
 
@@ -84,6 +91,14 @@ def category_products(request, slug):
     category = get_object_or_404(Category, slug=slug)
     products = Product.objects.filter(category=category)
     return render(request, "frontend/category_products.html", {"category": category, "products": products})
+
+
+def product_detail(request, slug):
+    product = get_object_or_404(Product, slug=slug)
+    return render(request, 'frontend/product-single.html', {
+        'product': product,
+        'images': product.images.all(),
+    })
 
 
 def product_single(request):
@@ -279,7 +294,6 @@ def product_list(request):
             "products": products,
             "sellers": WholesaleSeller.objects.all(),
             "categories": Category.objects.all(),
-            "unit_choices": Product.UNIT_CHOICES,
             "selected_category": category_id,
         },
     )

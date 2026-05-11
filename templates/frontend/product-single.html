@@ -9,12 +9,12 @@
                 <div class="col-lg-12">
                     <!-- Page Header Box Start -->
                     <div class="page-header-box">
-                        <h1 class="text-anime-style-3" data-cursor="-opaque">Pos System Overhaul</h1>
+                        <h1 class="text-anime-style-3" data-cursor="-opaque">{{ product.name }}</h1>
                         <nav class="wow fadeInUp">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{% url 'home' %}">home</a></li>
-                                <li class="breadcrumb-item"><a href="{% url 'products' %}">projects</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">IT Consulting Solutions</li>
+                                <li class="breadcrumb-item"><a href="{% url 'products' %}">Products</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">{{ product.name }}</li>
                             </ol>
                         </nav>
                     </div>
@@ -34,61 +34,30 @@
                     <div class="page-single-sidebar">
                         <!-- Page Sidebar Category List Start -->
                         <div class="page-category-list project-category-list wow fadeInUp">
-                            <h3>Project Information</h3>
+                            <h3>Product Details</h3>
                             <ul>
-                                <li><span>Client: </span>Global Manufacturing Inc.</li>
-                                <li><span>Start date: </span>2nd August 2025</li>
-                                <li><span>Category: </span>POS System Overhaul</li>
-                                <li><span>Estimation: </span>3 Month</li>
-                                <li><span>Duration: </span>9 Month</li>
-                                <li><span>Tags: </span>Analytics</li>
-                                <li><span>Share:</span>
-                                    <span>
-                                        <a href="#"><i class="fa-brands fa-instagram"></i></a>
-                                        <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-                                        <a href="#"><i class="fa-brands fa-dribbble"></i></a>
-                                        <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-                                    </span>
-                                </li>
+                                <li style="color: #fff;"><span style="color: #fff;">Seller: </span>{{ product.seller.name }}</li>
+                                <li style="color: #fff;"><span style="color: #fff;">Category: </span>{{ product.category.name }}</li>
+                                <li style="color: #fff;"><span style="color: #fff;">Price: </span>₹{{ product.price_per_unit }}</li>
                             </ul>
                         </div>
                         <!-- Page Sidebar Category List End -->
 
                         <!-- Sidebar CTA Box Start -->
                         <div class="sidebar-cta-box wow fadeInUp" data-wow-delay="0.2s">
-                            <!-- Sidebar CTA Image Start -->
-                            <div class="sidebar-cta-img">
-                                <figure class="image-anime">
-                                    <img src="{% static 'images/sidebar-cta-image.jpg' %}" alt="">
-                                </figure>
-                            </div>
-                            <!-- Sidebar CTA Image End -->
-
                             <div class="sidebar-cta-body">
-                                <!-- Sidebar CTA Content Start -->
                                 <div class="sidebar-cta-content">
-                                    <h3>Contact information</h3>
-                                    <p>Reach out to our team for fast support or any inquiries — we're just a call away.
-                                    </p>
+                                    <h3>Interested in this product?</h3>
+                                    <p>Contact us directly or reach out on WhatsApp for bulk pricing and availability.</p>
                                 </div>
-                                <!-- Sidebar CTA Content End -->
-
-                                <!-- Sidebar CTA Contact Start -->
-                                <div class="sidebar-cta-contact">
-                                    <div class="icon-box">
-                                        <img src="{% static 'images/sidebar-cta-logo.png' %}" alt="">
-                                    </div>
-
-                                    <div class="sidebar-contact-content">
-                                        <ul>
-                                            <li><img src="{% static 'images/icon-phone-white.svg' %}" alt=""> <a
-                                                    href="tel:+123456789">+(123) 456 789</a></li>
-                                            <li><img src="{% static 'images/icon-mail-white.svg' %}" alt=""> <a
-                                                    href="mailto:info@domainname.com">info@domainname.com</a></li>
-                                        </ul>
-                                    </div>
+                                <div class="mt-3" style="display: flex; flex-direction: column; gap: 12px;">
+                                    <a href="{% url 'contact' %}" class="btn-default" style="display:block; text-align:center;">
+                                        Send Enquiry
+                                    </a>
+                                    <a href="https://wa.me/919999999999" target="_blank" class="btn-default" style="display:block; text-align:center; background-color:#25D366; border-color:#25D366;">
+                                        <i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp
+                                    </a>
                                 </div>
-                                <!-- Sidebar CTA Contact End -->
                             </div>
                         </div>
                         <!-- Sidebar CTA Box End -->
@@ -100,24 +69,47 @@
                     <!-- Project Single Content Start -->
                     <div class="project_single-content">
                         <!-- Page Single Image Start -->
-                        <div class="page-single-image data-item-hover">
-                            <figure class="data-img-hover" data-intensity="0.4" data-speedin="1.5" data-speedout="1.5">
-                                <img src="{% static 'images/project-2.jpg' %}" alt="">
-                            </figure>
+                        <div class="swiper product-image-swiper" style="width:100%; border-radius:12px; overflow:hidden; margin-bottom: 30px;">
+                            <div class="swiper-wrapper">
+                                {% for img in images %}
+                                <div class="swiper-slide">
+                                    <figure>
+                                        <img src="{{ img.image.url }}" alt="{{ product.name }}" style="width:100%; height:450px; object-fit:cover;">
+                                    </figure>
+                                </div>
+                                {% empty %}
+                                <div class="swiper-slide">
+                                    <figure>
+                                        <img src="{% static 'images/project-2.jpg' %}" alt="{{ product.name }}" style="width:100%; height:450px; object-fit:cover;">
+                                    </figure>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-prev"></div>
+                            <div class="swiper-pagination"></div>
                         </div>
+                        
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function () {
+                                new Swiper('.product-image-swiper', {
+                                    loop: true,
+                                    navigation: {
+                                        nextEl: '.swiper-button-next',
+                                        prevEl: '.swiper-button-prev',
+                                    },
+                                    pagination: {
+                                        el: '.swiper-pagination',
+                                        clickable: true,
+                                    },
+                                });
+                            });
+                        </script>
                         <!-- Page Single Image End -->
 
                         <!-- Project Entry Start -->
                         <div class="project-entry">
-                            <p class="wow fadeInUp">Our Remote IT Support services are designed to provide your business
-                                with immediate, reliable, and expert technical assistance—no matter where your team is
-                                located. We ensure uninterrupted operations by quickly addressing technical issues
-                                through secure remote access, minimizing downtime and maximizing productivity.</p>
-                            <p class="wow fadeInUp" data-wow-delay="0.2s">From software troubleshooting and system
-                                updates to performance optimization and device configuration, our support specialists
-                                are available 24/7 to resolve problems efficiently. With robust security protocols and
-                                real-time response, we empower your workforce to stay focused on what matters
-                                most—without worrying about IT roadblocks.</p>
+                            <p class="wow fadeInUp">{{ product.description }}</p>
 
                             <!-- Project Transaction Box Start -->
                             <div class="project-transaction-box">
@@ -125,41 +117,25 @@
                                 <div class="project-transaction-body">
                                     <!-- Project Transaction Content Start -->
                                     <div class="project-transaction-content">
-                                        <h2 class="text-anime-style-3">Your business transaction</h2>
-                                        <p class="wow fadeInUp">We help businesses streamline and upgrade their
-                                            point-of-sale systems with modern, efficient, and user-friendly technology.
-                                            Our POS solutions are designed to improve customer experience, reduce
-                                            transaction times, and give you better control over inventory, sales
-                                            tracking, and reporting.Whether you're operating a retail store,
-                                            restaurant,or service-based business.</p>
+                                        <h2 class="text-anime-style-3">Why Buy from {{ product.seller.name }}</h2>
+                                        <p class="wow fadeInUp">{{ product.seller.name }} offers this product at competitive wholesale prices with reliable supply and quality assurance. Bulk orders are welcome and pricing is negotiable for large quantities.</p>
 
                                         <ul class="wow fadeInUp" data-wow-delay="0.2s">
-                                            <li>Real-time sales analytics track performance and make data-driven
-                                                decision.</li>
-                                            <li>Seamless Inventory Sync update stock levels across all.</li>
+                                            <li>Direct wholesale pricing — no middlemen involved</li>
+                                            <li>Bulk orders available with flexible payment terms</li>
                                         </ul>
                                     </div>
                                     <!-- Project Transaction Content End -->
 
                                     <!-- Project Entry Image Video Start -->
-                                    <div class="project-entry-image-video intro-video wow fadeInUp"
-                                        data-wow-delay="0.4s">
+                                    <div class="project-entry-image-video intro-video wow fadeInUp" data-wow-delay="0.4s">
                                         <!-- Intro Image Start -->
                                         <div class="intro-video-image">
                                             <figure class="image-anime">
-                                                <img src="{% static 'images/project-entry-image-video.jpg' %}" alt="">
+                                                <img src="{% if images %}{{ images.0.image.url }}{% else %}{% static 'images/project-entry-image-video.jpg' %}{% endif %}" alt="">
                                             </figure>
                                         </div>
                                         <!-- Intro Image End -->
-
-                                        <!-- Video Play Button Start -->
-                                        <div class="video-play-button bg-effect">
-                                            <a href="https://www.youtube.com/watch?v=Y-x0efG1seA" class="popup-video"
-                                                data-cursor-text="Play">
-                                                <i class="fa-solid fa-play"></i>
-                                            </a>
-                                        </div>
-                                        <!-- Video Play Button End -->
                                     </div>
                                     <!-- Project Entry Image Video End -->
                                 </div>
@@ -173,7 +149,7 @@
                                             <img src="{% static 'images/icon-transaction-item-1.svg' %}" alt="">
                                         </div>
                                         <div class="transaction-item-title">
-                                            <h3>Streamlined Checkout Process for Faster</h3>
+                                            <h3>Wholesale Pricing Available</h3>
                                         </div>
                                     </div>
                                     <!-- Transaction Item End -->
@@ -184,7 +160,7 @@
                                             <img src="{% static 'images/icon-transaction-item-2.svg' %}" alt="">
                                         </div>
                                         <div class="transaction-item-title">
-                                            <h3>Cross-Platform Compatibility for Wider</h3>
+                                            <h3>Direct from Verified Seller</h3>
                                         </div>
                                     </div>
                                     <!-- Transaction Item End -->
@@ -195,7 +171,7 @@
                                             <img src="{% static 'images/icon-transaction-item-3.svg' %}" alt="">
                                         </div>
                                         <div class="transaction-item-title">
-                                            <h3>Scalable Infrastructure for Future Growth</h3>
+                                            <h3>Bulk Orders Welcome</h3>
                                         </div>
                                     </div>
                                     <!-- Transaction Item End -->
@@ -206,10 +182,8 @@
 
                             <!-- Project Excellence Box Start -->
                             <div class="project-excellence-box">
-                                <h2 class="text-anime-style-3">Unlocking IT potential for business excellence</h2>
-                                <p class="wow fadeInUp">We provide proactive IT care that goes beyond fixing issues —
-                                    our approach focuses on optimizing system performance, reducing downtime, and
-                                    ensuring your technology works seamlessly.</p>
+                                <h2 class="text-anime-style-3">About the Seller — {{ product.seller.name }}</h2>
+                                <p class="wow fadeInUp">{{ product.seller.name }} is a verified wholesale seller on Trending Bulk, supplying quality products across India. Contact them directly for pricing, availability, and bulk order discussions.</p>
 
                                 <!-- Project Excellence Body Start -->
                                 <div class="project-excellence-body">
@@ -227,9 +201,8 @@
                                             <img src="{% static 'images/icon-project-excellence-item-1.svg' %}" alt="">
                                         </div>
                                         <div class="project-excellence-item-content">
-                                            <h3>Project Challange</h3>
-                                            <p>Streamline your business processes, reduce inefficiencies, and boost
-                                                overall productivity through customized</p>
+                                            <h3>Seller Location</h3>
+                                            <p>{{ product.seller.address }}</p>
                                         </div>
                                     </div>
                                     <!-- Project Excellence Item End -->
@@ -240,20 +213,15 @@
                                             <img src="{% static 'images/icon-project-excellence-item-2.svg' %}" alt="">
                                         </div>
                                         <div class="project-excellence-item-content">
-                                            <h3>Project Solution</h3>
-                                            <p>Streamline your business processes, reduce inefficiencies, and boost
-                                                overall productivity through customized</p>
+                                            <h3>Contact Seller</h3>
+                                            <p>{{ product.seller.phone }}</p>
                                         </div>
                                     </div>
                                     <!-- Project Excellence Item End -->
                                 </div>
                                 <!-- Project Excellence Body End -->
 
-                                <p class="wow fadeInUp" data-wow-delay="0.6s">Our Remote IT Support services are
-                                    designed to provide your business with immediate, reliable, and expert technical
-                                    assistance—no matter where your team is located. We ensure uninterrupted operations
-                                    by quickly addressing technical issues through secure remote access, minimizing
-                                    downtime and maximizing productivity.</p>
+                                <p class="wow fadeInUp" data-wow-delay="0.6s">Trending Bulk connects you directly with verified wholesale sellers across India. Place your bulk order today and start your business journey with confidence.</p>
                             </div>
                             <!-- Project Excellence Box End -->
                         </div>
@@ -263,7 +231,7 @@
                         <div class="page-single-faqs">
                             <!-- Section Title Start -->
                             <div class="section-title">
-                                <h2 class="text-anime-style-3" data-cursor="-opaque">Frequently asked question</h2>
+                                <h2 class="text-anime-style-3" data-cursor="-opaque">Frequently Asked Questions</h2>
                             </div>
                             <!-- Section Title End -->
 
@@ -274,16 +242,13 @@
                                     <h2 class="accordion-header" id="heading1">
                                         <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                             data-bs-target="#collapse1" aria-expanded="true" aria-controls="collapse1">
-                                            Q1. How quickly can we get support when an issue arises?
+                                            What is the minimum order quantity?
                                         </button>
                                     </h2>
                                     <div id="collapse1" class="accordion-collapse collapse show"
                                         aria-labelledby="heading1" data-bs-parent="#accordion">
                                         <div class="accordion-body">
-                                            <p>Our average response time is under 30 minutes, ensuring that your
-                                                concerns are addressed swiftly. For critical issues, our team takes
-                                                immediate action to provide fast resolution and reduce any potential
-                                                downtime.</p>
+                                            <p>Minimum order quantities vary by product and seller. Please contact the seller directly via the enquiry button or WhatsApp for specific MOQ details.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -295,16 +260,13 @@
                                         <button class="accordion-button collapsed" type="button"
                                             data-bs-toggle="collapse" data-bs-target="#collapse2" aria-expanded="false"
                                             aria-controls="collapse2">
-                                            Q2. Can you help us move our business to the cloud?
+                                            How do I place a bulk order?
                                         </button>
                                     </h2>
                                     <div id="collapse2" class="accordion-collapse collapse" aria-labelledby="heading2"
                                         data-bs-parent="#accordion">
                                         <div class="accordion-body">
-                                            <p>Our average response time is under 30 minutes, ensuring that your
-                                                concerns are addressed swiftly. For critical issues, our team takes
-                                                immediate action to provide fast resolution and reduce any potential
-                                                downtime.</p>
+                                            <p>Click the Send Enquiry button or Chat on WhatsApp to directly connect with the seller and discuss your bulk order requirements.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -316,16 +278,13 @@
                                         <button class="accordion-button collapsed" type="button"
                                             data-bs-toggle="collapse" data-bs-target="#collapse3" aria-expanded="false"
                                             aria-controls="collapse3">
-                                            Q3. How do you protect our data from cyber threats?
+                                            What are the payment terms?
                                         </button>
                                     </h2>
                                     <div id="collapse3" class="accordion-collapse collapse" aria-labelledby="heading3"
                                         data-bs-parent="#accordion">
                                         <div class="accordion-body">
-                                            <p>Our average response time is under 30 minutes, ensuring that your
-                                                concerns are addressed swiftly. For critical issues, our team takes
-                                                immediate action to provide fast resolution and reduce any potential
-                                                downtime.</p>
+                                            <p>Payment terms are discussed directly between you and the seller. Common options include advance payment, UPI, and bank transfer.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -337,16 +296,13 @@
                                         <button class="accordion-button collapsed" type="button"
                                             data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="false"
                                             aria-controls="collapse4">
-                                            Q4. Can you customize your services for our business?
+                                            How long does delivery take?
                                         </button>
                                     </h2>
                                     <div id="collapse4" class="accordion-collapse collapse" aria-labelledby="heading4"
                                         data-bs-parent="#accordion">
                                         <div class="accordion-body">
-                                            <p>Our average response time is under 30 minutes, ensuring that your
-                                                concerns are addressed swiftly. For critical issues, our team takes
-                                                immediate action to provide fast resolution and reduce any potential
-                                                downtime.</p>
+                                            <p>Delivery timelines depend on the seller's location and your delivery address. The seller will confirm the timeline upon order confirmation.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -358,16 +314,13 @@
                                         <button class="accordion-button collapsed" type="button"
                                             data-bs-toggle="collapse" data-bs-target="#collapse5" aria-expanded="false"
                                             aria-controls="collapse5">
-                                            Q5. Do you provide employee cybersecurity training?
+                                            Is the product quality guaranteed?
                                         </button>
                                     </h2>
                                     <div id="collapse5" class="accordion-collapse collapse" aria-labelledby="heading5"
                                         data-bs-parent="#accordion">
                                         <div class="accordion-body">
-                                            <p>Our average response time is under 30 minutes, ensuring that your
-                                                concerns are addressed swiftly. For critical issues, our team takes
-                                                immediate action to provide fast resolution and reduce any potential
-                                                downtime.</p>
+                                            <p>All sellers on Trending Bulk are verified. However, we recommend requesting a sample before placing large bulk orders.</p>
                                         </div>
                                     </div>
                                 </div>

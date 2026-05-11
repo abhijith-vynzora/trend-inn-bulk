@@ -196,131 +196,62 @@
     </div>
     <!-- About Us Section End -->
 
-    <!-- Our Services Section Start -->
+    <!-- Shop by Category Section Start -->
     <div class="our-services bg-section">
         <div class="container">
             <div class="row section-row">
                 <div class="col-lg-12">
                     <!-- Section Title Start -->
                     <div class="section-title section-title-center">
-                        <h3 class="wow fadeInUp">Our Services</h3>
-                        <h2 class="text-effect" data-cursor="-opaque">Blending technical expertise with customer centric
-                            values to help you succeed in a...</h2>
+                        <h3 class="wow fadeInUp">Shop by Category</h3>
+                        <h2 class="text-effect" data-cursor="-opaque">Explore our top wholesale sectors and find the best deals for your business</h2>
                     </div>
                     <!-- Section Title End -->
                 </div>
             </div>
 
             <div class="row services-item-list">
+                {% for category in categories %}
                 <div class="col-xl-3 col-md-6">
-                    <!-- Service Item Start -->
-                    <div class="services-item active wow fadeInUp">
+                    <!-- Category Item Start -->
+                    <div class="services-item {% if forloop.first %}active{% endif %} wow fadeInUp" data-wow-delay="{{ forloop.counter0|add:0.2 }}s">
                         <div class="services-item-header">
                             <div class="icon-box">
-                                <img src="{% static 'images/icon-services-1.svg' %}" alt="">
+                                {% if category.image %}
+                                    <img src="{{ category.image.url }}" alt="{{ category.name }}" style="width: 50px; height: 50px; object-fit: contain;">
+                                {% else %}
+                                    <img src="{% static 'images/icon-services-1.svg' %}" alt="{{ category.name }}">
+                                {% endif %}
                             </div>
                             <div class="services-btn">
-                                <a href="{% url 'service_single' %}"><img src="{% static 'images/arrow-primary.svg' %}"
+                                <a href="{% url 'category_products' category.slug %}"><img src="{% static 'images/arrow-primary.svg' %}"
                                         alt=""></a>
                             </div>
                         </div>
                         <div class="services-item-content">
-                            <h3><a href="{% url 'service_single' %}">Remote IT Support</a></h3>
-                            <p>Our Remote IT Support ensures your team gets assistance</p>
-                            <ul>
-                                <li>24/7 support availability.</li>
-                                <li>Secure remote troubleshoot.</li>
-                            </ul>
+                            <h3><a href="{% url 'category_products' category.slug %}">{{ category.name }}</a></h3>
+                            <p>{{ category.description|truncatewords:10 }}</p>
                         </div>
                     </div>
-                    <!-- Service Item End -->
+                    <!-- Category Item End -->
                 </div>
-
-                <div class="col-xl-3 col-md-6">
-                    <!-- Service Item Start -->
-                    <div class="services-item wow fadeInUp" data-wow-delay="0.2s">
-                        <div class="services-item-header">
-                            <div class="icon-box">
-                                <img src="{% static 'images/icon-services-2.svg' %}" alt="">
-                            </div>
-                            <div class="services-btn">
-                                <a href="{% url 'service_single' %}"><img src="{% static 'images/arrow-primary.svg' %}"
-                                        alt=""></a>
-                            </div>
-                        </div>
-                        <div class="services-item-content">
-                            <h3><a href="{% url 'service_single' %}">Cybersecurity Services</a></h3>
-                            <p>Our Cybersecurity Services protect your business</p>
-                            <ul>
-                                <li>Real-time threat detection.</li>
-                                <li>Enterprise-grade encrypt.</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- Service Item End -->
+                {% empty %}
+                <div class="col-lg-12 text-center">
+                    <p>No categories available yet.</p>
                 </div>
-
-                <div class="col-xl-3 col-md-6">
-                    <!-- Service Item Start -->
-                    <div class="services-item wow fadeInUp" data-wow-delay="0.4s">
-                        <div class="services-item-header">
-                            <div class="icon-box">
-                                <img src="{% static 'images/icon-services-3.svg' %}" alt="">
-                            </div>
-                            <div class="services-btn">
-                                <a href="{% url 'service_single' %}"><img src="{% static 'images/arrow-primary.svg' %}"
-                                        alt=""></a>
-                            </div>
-                        </div>
-                        <div class="services-item-content">
-                            <h3><a href="{% url 'service_single' %}">Network Infrastructure</a></h3>
-                            <p>We Ensure your business operates on a fast, secure.</p>
-                            <ul>
-                                <li>Advanced monitoring.</li>
-                                <li>Custom-designed network.</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- Service Item End -->
-                </div>
-
-                <div class="col-xl-3 col-md-6">
-                    <!-- Service Item Start -->
-                    <div class="services-item wow fadeInUp" data-wow-delay="0.6s">
-                        <div class="services-item-header">
-                            <div class="icon-box">
-                                <img src="{% static 'images/icon-services-4.svg' %}" alt="">
-                            </div>
-                            <div class="services-btn">
-                                <a href="{% url 'service_single' %}"><img src="{% static 'images/arrow-primary.svg' %}"
-                                        alt=""></a>
-                            </div>
-                        </div>
-                        <div class="services-item-content">
-                            <h3><a href="{% url 'service_single' %}">Data Backup & Recovery</a></h3>
-                            <p>Data Backup & Recovery services protect your business.</p>
-                            <ul>
-                                <li>Fast data restoration.</li>
-                                <li>Automated encrypt backup.</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- Service Item End -->
-                </div>
+                {% endfor %}
 
                 <div class="col-lg-12">
                     <!-- Section Footer Text Start -->
                     <div class="section-footer-text wow fadeInUp" data-wow-delay="0.8s">
-                        <p><span>Free</span>From setup to scaling - <a href="{% url 'contact' %}">discover solutions
-                                that adapt
-                                as you grow.</a></p>
+                        <p><span>Browse</span> All wholesale sectors - <a href="{% url 'products' %}">view all categories</a></p>
                     </div>
                     <!-- Section Footer Text End -->
                 </div>
             </div>
         </div>
     </div>
-    <!-- Our Services Section End -->
+    <!-- Shop by Category Section End -->
 
     <!-- Why Choose Us Section Start -->
     <div class="why-choose-us">
@@ -708,16 +639,15 @@
     </div>
     <!-- Intro Video Section End -->
 
-    <!-- Our Projects Section Start -->
+    <!-- Featured Products Section Start -->
     <div class="our-projects">
         <div class="container">
             <div class="row section-row align-items-center">
                 <div class="col-xxl-6 col-xl-7 col-lg-9">
                     <!-- Section Title Start -->
                     <div class="section-title">
-                        <h3 class="wow fadeInUp">Our Projects</h3>
-                        <h2 class="text-effect" data-cursor="-opaque">Clear steps that ensure scalable, secure &
-                            hassle-free</h2>
+                        <h3 class="wow fadeInUp">Featured Products</h3>
+                        <h2 class="text-effect" data-cursor="-opaque">Trending wholesale products available at factory rates</h2>
                     </div>
                     <!-- Section Title End -->
                 </div>
@@ -725,27 +655,32 @@
                 <div class="col-xxl-6 col-xl-5 col-lg-3">
                     <!-- Section Button Start -->
                     <div class="section-btn wow fadeInUp" data-wow-delay="0.2s">
-                        <a href="{% url 'products' %}" download="" class="btn-default">View All Projects</a>
+                        <a href="{% url 'products' %}" class="btn-default">View All Products</a>
                     </div>
                     <!-- Section Button End -->
                 </div>
             </div>
 
             <div class="row">
+                {% for product in recent_products %}
                 <div class="col-xl-3 col-md-6">
-                    <!-- Project Item Start -->
-                    <div class="project-item wow fadeInUp">
-                        <!-- Project image Start -->
+                    <!-- Product Item Start -->
+                    <div class="project-item wow fadeInUp" data-wow-delay="{{ forloop.counter0|add:0.2 }}s">
+                        <!-- Product image Start -->
                         <div class="project-image">
                             <figure class="image-anime">
-                                <img src="{% static 'images/project-1.jpg' %}" alt="">
+                                {% if product.images.first %}
+                                    <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}">
+                                {% else %}
+                                    <img src="{% static 'images/project-1.jpg' %}" alt="{{ product.name }}">
+                                {% endif %}
                             </figure>
                         </div>
-                        <!-- Project image End -->
+                        <!-- Product image End -->
 
                         <!-- Project Button Start -->
                         <div class="project-btn">
-                            <a href="{% url 'product_single' %}">
+                            <a href="{% url 'product_detail' product.slug %}">
                                 <img src="{% static 'images/arrow-white.svg' %}" alt="">
                             </a>
                         </div>
@@ -753,536 +688,31 @@
 
                         <!-- Project Content Start -->
                         <div class="project-content">
-                            <h3><a href="{% url 'product_single' %}">CloudOps Transformion</a></h3>
-                            <p>Migrated legacy system AWS cloud infrastructure.</p>
+                            <h3><a href="{% url 'product_detail' product.slug %}">{{ product.name }}</a></h3>
+                            <p>Starting from ₹{{ product.price_per_unit }}</p>
                         </div>
                         <!-- Project Content End -->
                     </div>
-                    <!-- Project Item End -->
+                    <!-- Product Item End -->
                 </div>
-
-                <div class="col-xl-3 col-md-6">
-                    <!-- Project Item Start -->
-                    <div class="project-item wow fadeInUp" data-wow-delay="0.2s">
-                        <!-- Project image Start -->
-                        <div class="project-image">
-                            <figure class="image-anime">
-                                <img src="{% static 'images/project-2.jpg' %}" alt="">
-                            </figure>
-                        </div>
-                        <!-- Project image End -->
-
-                        <!-- Project Button Start -->
-                        <div class="project-btn">
-                            <a href="{% url 'product_single' %}">
-                                <img src="{% static 'images/arrow-white.svg' %}" alt="">
-                            </a>
-                        </div>
-                        <!-- Project Button End -->
-
-                        <!-- Project Content Start -->
-                        <div class="project-content">
-                            <h3><a href="{% url 'product_single' %}">POS System Overhaul</a></h3>
-                            <p>Deployed a custom POS and inventory solutions.</p>
-                        </div>
-                        <!-- Project Content End -->
-                    </div>
-                    <!-- Project Item End -->
+                {% empty %}
+                <div class="col-lg-12 text-center">
+                    <p>No products available yet.</p>
                 </div>
-
-                <div class="col-xl-3 col-md-6">
-                    <!-- Project Item Start -->
-                    <div class="project-item wow fadeInUp" data-wow-delay="0.4s">
-                        <!-- Project image Start -->
-                        <div class="project-image">
-                            <figure class="image-anime">
-                                <img src="{% static 'images/project-3.jpg' %}" alt="">
-                            </figure>
-                        </div>
-                        <!-- Project image End -->
-
-                        <!-- Project Button Start -->
-                        <div class="project-btn">
-                            <a href="{% url 'product_single' %}">
-                                <img src="{% static 'images/arrow-white.svg' %}" alt="">
-                            </a>
-                        </div>
-                        <!-- Project Button End -->
-
-                        <!-- Project Content Start -->
-                        <div class="project-content">
-                            <h3><a href="{% url 'product_single' %}">RemoteAssist 360</a></h3>
-                            <p>Delivered proactive 24*7 remote IT support.</p>
-                        </div>
-                        <!-- Project Content End -->
-                    </div>
-                    <!-- Project Item End -->
-                </div>
-
-                <div class="col-xl-3 col-md-6">
-                    <!-- Project Item Start -->
-                    <div class="project-item wow fadeInUp" data-wow-delay="0.6s">
-                        <!-- Project image Start -->
-                        <div class="project-image">
-                            <figure class="image-anime">
-                                <img src="{% static 'images/project-4.jpg' %}" alt="">
-                            </figure>
-                        </div>
-                        <!-- Project image End -->
-
-                        <!-- Project Button Start -->
-                        <div class="project-btn">
-                            <a href="{% url 'product_single' %}">
-                                <img src="{% static 'images/arrow-white.svg' %}" alt="">
-                            </a>
-                        </div>
-                        <!-- Project Button End -->
-
-                        <!-- Project Content Start -->
-                        <div class="project-content">
-                            <h3><a href="{% url 'product_single' %}">DataGuard Recovery</a></h3>
-                            <p>Deployed robust backup disaster recovery system.</p>
-                        </div>
-                        <!-- Project Content End -->
-                    </div>
-                    <!-- Project Item End -->
-                </div>
+                {% endfor %}
 
                 <div class="col-lg-12">
                     <!-- Section Footer Text Start -->
                     <div class="section-footer-text wow fadeInUp" data-wow-delay="0.8s">
-                        <p><span><img src="{% static 'images/icon-phone-white.svg' %}" alt=""></span> Let's make
-                            something great work
-                            together. <a href="{% url 'contact' %}">Contact Us Today!</a></p>
+                        <p><span><img src="{% static 'images/icon-phone-white.svg' %}" alt=""></span> Start your bulk order today. <a href="{% url 'contact' %}">Contact Us Now!</a></p>
                     </div>
                     <!-- Section Footer Text End -->
                 </div>
             </div>
         </div>
     </div>
-    <!-- Our Projects Section End -->
+    <!-- Featured Products Section End -->
 
-    <!-- Our Pricing Section Start -->
-    <div class="our-pricing bg-section">
-        <div class="container">
-            <div class="row section-row align-items-center">
-                <div class="col-lg-12">
-                    <!-- Section Title Start -->
-                    <div class="section-title section-title-center">
-                        <h3 class="wow fadeInUp">Our Pricing Plans</h3>
-                        <h2 class="text-effect" data-cursor="-opaque">Flexible it service plans designed to fit every
-                            business size and budget</h2>
-                    </div>
-                    <!-- Section Title End -->
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-lg-12">
-                    <!-- Our Pricing Box Start -->
-                    <div class="our-pricing-box wow fadeInUp" data-wow-delay="0.2s">
-                        <div class="our-pricing-swich form-check form-switch">
-                            <label class="form-check-label" for="planToggle" id="toggleLabelMonthly">Monthly</label>
-                            <span><input class="form-check-input" type="checkbox" id="planToggle"></span>
-                            <label class="form-check-label" for="planToggle" id="toggleLabelAnnually">Annually</label>
-                        </div>
-                        <!-- Sidebar Our Pricing Nav End -->
-
-                        <!-- Pricing Tab Item Start -->
-                        <div class="pricing-tab-item" id="monthly">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <!-- Pricing Items List Start -->
-                                    <div class="pricing-items-list">
-                                        <!-- Pricing Item Start -->
-                                        <div class="pricing-item">
-                                            <!-- Pricing Item Header Start -->
-                                            <div class="pricing-item-header">
-                                                <!-- Pricing Header Start -->
-                                                <div class="icon-box">
-                                                    <img src="{% static 'images/icon-pricing-1.svg' %}" alt="">
-                                                </div>
-                                                <!-- Pricing Header End -->
-
-                                                <!-- Pricing Price Start -->
-                                                <div class="pricing-price">
-                                                    <h2>$95.00<sub>/Monthly</sub></h2>
-                                                </div>
-                                                <!-- Pricing Price End -->
-
-                                                <!-- Pricing Item Content Start -->
-                                                <div class="pricing-item-content">
-                                                    <p>Improve system performance with intelligent tools that monitor.
-                                                    </p>
-                                                </div>
-                                                <!-- Pricing Item Content End -->
-                                            </div>
-                                            <!-- Pricing Item Header End -->
-
-                                            <!-- Pricing body Start -->
-                                            <div class="pricing-body">
-                                                <h3>What's Included:</h3>
-                                                <ul>
-                                                    <li>Certified industry-leading</li>
-                                                    <li>Years of experience across</li>
-                                                </ul>
-
-                                                <!-- Pricing Button Start -->
-                                                <div class="pricing-btn">
-                                                    <a href="{% url 'contact' %}" class="btn-default">get started
-                                                        now</a>
-                                                </div>
-                                                <!-- Pricing Button End -->
-                                            </div>
-                                            <!-- Pricing body End -->
-                                        </div>
-                                        <!-- Pricing Item End -->
-
-                                        <!-- Pricing Item Start -->
-                                        <div class="pricing-item">
-                                            <!-- Pricing Item Header Start -->
-                                            <div class="pricing-item-header">
-                                                <!-- Pricing Header Start -->
-                                                <div class="icon-box">
-                                                    <img src="{% static 'images/icon-pricing-2.svg' %}" alt="">
-                                                </div>
-                                                <!-- Pricing Header End -->
-
-                                                <!-- Pricing Price Start -->
-                                                <div class="pricing-price">
-                                                    <h2>$149.00<sub>/Monthly</sub></h2>
-                                                </div>
-                                                <!-- Pricing Price End -->
-
-                                                <!-- Pricing Item Content Start -->
-                                                <div class="pricing-item-content">
-                                                    <p>Improve system performance with intelligent tools that monitor.
-                                                    </p>
-                                                </div>
-                                                <!-- Pricing Item Content End -->
-                                            </div>
-                                            <!-- Pricing Item Header End -->
-
-                                            <!-- Pricing body Start -->
-                                            <div class="pricing-body">
-                                                <h3>What's Included:</h3>
-                                                <ul>
-                                                    <li>Certified industry-leading</li>
-                                                    <li>Years of experience across</li>
-                                                </ul>
-
-                                                <!-- Pricing Button Start -->
-                                                <div class="pricing-btn">
-                                                    <a href="{% url 'contact' %}" class="btn-default">get started
-                                                        now</a>
-                                                </div>
-                                                <!-- Pricing Button End -->
-                                            </div>
-                                            <!-- Pricing body End -->
-                                        </div>
-                                        <!-- Pricing Item End -->
-
-                                        <!-- Pricing Item Start -->
-                                        <div class="pricing-item">
-                                            <!-- Pricing Item Header Start -->
-                                            <div class="pricing-item-header">
-                                                <!-- Pricing Header Start -->
-                                                <div class="icon-box">
-                                                    <img src="{% static 'images/icon-pricing-3.svg' %}" alt="">
-                                                </div>
-                                                <!-- Pricing Header End -->
-
-                                                <!-- Pricing Price Start -->
-                                                <div class="pricing-price">
-                                                    <h2>$249.00<sub>/Monthly</sub></h2>
-                                                </div>
-                                                <!-- Pricing Price End -->
-
-                                                <!-- Pricing Item Content Start -->
-                                                <div class="pricing-item-content">
-                                                    <p>Improve system performance with intelligent tools that monitor.
-                                                    </p>
-                                                </div>
-                                                <!-- Pricing Item Content End -->
-                                            </div>
-                                            <!-- Pricing Item Header End -->
-
-                                            <!-- Pricing body Start -->
-                                            <div class="pricing-body">
-                                                <h3>What's Included:</h3>
-                                                <ul>
-                                                    <li>Certified industry-leading</li>
-                                                    <li>Years of experience across</li>
-                                                </ul>
-
-                                                <!-- Pricing Button Start -->
-                                                <div class="pricing-btn">
-                                                    <a href="{% url 'contact' %}" class="btn-default">get started
-                                                        now</a>
-                                                </div>
-                                                <!-- Pricing Button End -->
-                                            </div>
-                                            <!-- Pricing body End -->
-                                        </div>
-                                        <!-- Pricing Item End -->
-
-                                        <!-- Pricing Item Start -->
-                                        <div class="pricing-item">
-                                            <!-- Pricing Item Header Start -->
-                                            <div class="pricing-item-header">
-                                                <!-- Pricing Header Start -->
-                                                <div class="icon-box">
-                                                    <img src="{% static 'images/icon-pricing-4.svg' %}" alt="">
-                                                </div>
-                                                <!-- Pricing Header End -->
-
-                                                <!-- Pricing Price Start -->
-                                                <div class="pricing-price">
-                                                    <h2>$599.00<sub>/Monthly</sub></h2>
-                                                </div>
-                                                <!-- Pricing Price End -->
-
-                                                <!-- Pricing Item Content Start -->
-                                                <div class="pricing-item-content">
-                                                    <p>Improve system performance with intelligent tools that monitor.
-                                                    </p>
-                                                </div>
-                                                <!-- Pricing Item Content End -->
-                                            </div>
-                                            <!-- Pricing Item Header End -->
-
-                                            <!-- Pricing body Start -->
-                                            <div class="pricing-body">
-                                                <h3>What's Included:</h3>
-                                                <ul>
-                                                    <li>Certified industry-leading</li>
-                                                    <li>Years of experience across</li>
-                                                </ul>
-
-                                                <!-- Pricing Button Start -->
-                                                <div class="pricing-btn">
-                                                    <a href="{% url 'contact' %}" class="btn-default">get started
-                                                        now</a>
-                                                </div>
-                                                <!-- Pricing Button End -->
-                                            </div>
-                                            <!-- Pricing body End -->
-                                        </div>
-                                        <!-- Pricing Item End -->
-                                    </div>
-                                    <!-- Pricing Items List End -->
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Pricing Tab Item End -->
-
-                        <!-- Pricing Tab Item Start -->
-                        <div class="pricing-tab-item d-none" id="annually">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <!-- Pricing Items List Start -->
-                                    <div class="pricing-items-list">
-                                        <!-- Pricing Item Start -->
-                                        <div class="pricing-item">
-                                            <!-- Pricing Item Header Start -->
-                                            <div class="pricing-item-header">
-                                                <!-- Pricing Header Start -->
-                                                <div class="icon-box">
-                                                    <img src="{% static 'images/icon-pricing-1.svg' %}" alt="">
-                                                </div>
-                                                <!-- Pricing Header End -->
-
-                                                <!-- Pricing Price Start -->
-                                                <div class="pricing-price">
-                                                    <h2>$195.00<sub>/Yearly</sub></h2>
-                                                </div>
-                                                <!-- Pricing Price End -->
-
-                                                <!-- Pricing Item Content Start -->
-                                                <div class="pricing-item-content">
-                                                    <p>Improve system performance with intelligent tools that monitor.
-                                                    </p>
-                                                </div>
-                                                <!-- Pricing Item Content End -->
-                                            </div>
-                                            <!-- Pricing Item Header End -->
-
-                                            <!-- Pricing body Start -->
-                                            <div class="pricing-body">
-                                                <h3>What's Included:</h3>
-                                                <ul>
-                                                    <li>Certified industry-leading</li>
-                                                    <li>Years of experience across</li>
-                                                </ul>
-
-                                                <!-- Pricing Button Start -->
-                                                <div class="pricing-btn">
-                                                    <a href="{% url 'contact' %}" class="btn-default">get started
-                                                        now</a>
-                                                </div>
-                                                <!-- Pricing Button End -->
-                                            </div>
-                                            <!-- Pricing body End -->
-                                        </div>
-                                        <!-- Pricing Item End -->
-
-                                        <!-- Pricing Item Start -->
-                                        <div class="pricing-item">
-                                            <!-- Pricing Item Header Start -->
-                                            <div class="pricing-item-header">
-                                                <!-- Pricing Header Start -->
-                                                <div class="icon-box">
-                                                    <img src="{% static 'images/icon-pricing-2.svg' %}" alt="">
-                                                </div>
-                                                <!-- Pricing Header End -->
-
-                                                <!-- Pricing Price Start -->
-                                                <div class="pricing-price">
-                                                    <h2>$1149.00<sub>/Yearly</sub></h2>
-                                                </div>
-                                                <!-- Pricing Price End -->
-
-                                                <!-- Pricing Item Content Start -->
-                                                <div class="pricing-item-content">
-                                                    <p>Improve system performance with intelligent tools that monitor.
-                                                    </p>
-                                                </div>
-                                                <!-- Pricing Item Content End -->
-                                            </div>
-                                            <!-- Pricing Item Header End -->
-
-                                            <!-- Pricing body Start -->
-                                            <div class="pricing-body">
-                                                <h3>What's Included:</h3>
-                                                <ul>
-                                                    <li>Certified industry-leading</li>
-                                                    <li>Years of experience across</li>
-                                                </ul>
-
-                                                <!-- Pricing Button Start -->
-                                                <div class="pricing-btn">
-                                                    <a href="{% url 'contact' %}" class="btn-default">get started
-                                                        now</a>
-                                                </div>
-                                                <!-- Pricing Button End -->
-                                            </div>
-                                            <!-- Pricing body End -->
-                                        </div>
-                                        <!-- Pricing Item End -->
-
-                                        <!-- Pricing Item Start -->
-                                        <div class="pricing-item">
-                                            <!-- Pricing Item Header Start -->
-                                            <div class="pricing-item-header">
-                                                <!-- Pricing Header Start -->
-                                                <div class="icon-box">
-                                                    <img src="{% static 'images/icon-pricing-3.svg' %}" alt="">
-                                                </div>
-                                                <!-- Pricing Header End -->
-
-                                                <!-- Pricing Price Start -->
-                                                <div class="pricing-price">
-                                                    <h2>$1249.00<sub>/Yearly</sub></h2>
-                                                </div>
-                                                <!-- Pricing Price End -->
-
-                                                <!-- Pricing Item Content Start -->
-                                                <div class="pricing-item-content">
-                                                    <p>Improve system performance with intelligent tools that monitor.
-                                                    </p>
-                                                </div>
-                                                <!-- Pricing Item Content End -->
-                                            </div>
-                                            <!-- Pricing Item Header End -->
-
-                                            <!-- Pricing body Start -->
-                                            <div class="pricing-body">
-                                                <h3>What's Included:</h3>
-                                                <ul>
-                                                    <li>Certified industry-leading</li>
-                                                    <li>Years of experience across</li>
-                                                </ul>
-
-                                                <!-- Pricing Button Start -->
-                                                <div class="pricing-btn">
-                                                    <a href="{% url 'contact' %}" class="btn-default">get started
-                                                        now</a>
-                                                </div>
-                                                <!-- Pricing Button End -->
-                                            </div>
-                                            <!-- Pricing body End -->
-                                        </div>
-                                        <!-- Pricing Item End -->
-
-                                        <!-- Pricing Item Start -->
-                                        <div class="pricing-item">
-                                            <!-- Pricing Item Header Start -->
-                                            <div class="pricing-item-header">
-                                                <!-- Pricing Header Start -->
-                                                <div class="icon-box">
-                                                    <img src="{% static 'images/icon-pricing-4.svg' %}" alt="">
-                                                </div>
-                                                <!-- Pricing Header End -->
-
-                                                <!-- Pricing Price Start -->
-                                                <div class="pricing-price">
-                                                    <h2>$1599.00<sub>/Yearly</sub></h2>
-                                                </div>
-                                                <!-- Pricing Price End -->
-
-                                                <!-- Pricing Item Content Start -->
-                                                <div class="pricing-item-content">
-                                                    <p>Improve system performance with intelligent tools that monitor.
-                                                    </p>
-                                                </div>
-                                                <!-- Pricing Item Content End -->
-                                            </div>
-                                            <!-- Pricing Item Header End -->
-
-                                            <!-- Pricing body Start -->
-                                            <div class="pricing-body">
-                                                <h3>What's Included:</h3>
-                                                <ul>
-                                                    <li>Certified industry-leading</li>
-                                                    <li>Years of experience across</li>
-                                                </ul>
-
-                                                <!-- Pricing Button Start -->
-                                                <div class="pricing-btn">
-                                                    <a href="{% url 'contact' %}" class="btn-default">get started
-                                                        now</a>
-                                                </div>
-                                                <!-- Pricing Button End -->
-                                            </div>
-                                            <!-- Pricing body End -->
-                                        </div>
-                                        <!-- Pricing Item End -->
-                                    </div>
-                                    <!-- Pricing Items List End -->
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Pricing Tab Item End -->
-
-                        <!-- Pricing Benifit List Start -->
-                        <div class="pricing-benefit-list wow fadeInUp" data-wow-delay="0.2s">
-                            <ul>
-                                <li><img src="{% static 'images/icon-pricing-benefit-1.svg' %}" alt="">Get 30 day free
-                                    trial</li>
-                                <li><img src="{% static 'images/icon-pricing-benefit-2.svg' %}" alt="">No any hidden fee
-                                    pay</li>
-                                <li><img src="{% static 'images/icon-pricing-benefit-3.svg' %}" alt="">You can cancel
-                                    anytime </li>
-                            </ul>
-                        </div>
-                        <!-- Pricing Benifit List End -->
-                    </div>
-                    <!-- Our Pricing Box End -->
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Our Pricing Section End -->
 
     <!-- Our FAQs Section Start -->
     <div class="our-faqs">
@@ -1343,8 +773,7 @@
                         <!-- Section Title Start -->
                         <div class="section-title">
                             <h3 class="wow fadeInUp">Frequently Asked Questions</h3>
-                            <h2 class="text-effect" data-cursor="-opaque">Everything you need to know about our it
-                                services and solutions</h2>
+                            <h2 class="text-effect" data-cursor="-opaque">Everything you need to know about Trending Bulk</h2>
                         </div>
                         <!-- Section Title End -->
 
@@ -1355,14 +784,13 @@
                                 <h2 class="accordion-header" id="heading1">
                                     <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                         data-bs-target="#collapse1" aria-expanded="true" aria-controls="collapse1">
-                                        Q1. How quickly can we get support when an issue arises?
+                                        Q1. How do I verify a seller?
                                     </button>
                                 </h2>
                                 <div id="collapse1" class="accordion-collapse collapse show" aria-labelledby="heading1"
                                     data-bs-parent="#accordion">
                                     <div class="accordion-body">
-                                        <p>Our average response time is within 30 minutes. For critical issues, we
-                                            prioritize immediate resolution to minimize downtime.</p>
+                                        <p>Sellers are verified by our team through a strict verification process to ensure reliability and product quality.</p>
                                     </div>
                                 </div>
                             </div>
@@ -1373,14 +801,13 @@
                                 <h2 class="accordion-header" id="heading2">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                         data-bs-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
-                                        Q2. Can you help us move our business to the cloud?
+                                        Q2. What is the minimum order quantity?
                                     </button>
                                 </h2>
                                 <div id="collapse2" class="accordion-collapse collapse" aria-labelledby="heading2"
                                     data-bs-parent="#accordion">
                                     <div class="accordion-body">
-                                        <p>Our average response time is within 30 minutes. For critical issues, we
-                                            prioritize immediate resolution to minimize downtime.</p>
+                                        <p>Minimum order quantities (MOQ) are set by each seller and vary by product. You can find this information on the product detail page.</p>
                                     </div>
                                 </div>
                             </div>
@@ -1391,14 +818,13 @@
                                 <h2 class="accordion-header" id="heading3">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                         data-bs-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
-                                        Q3. How do you protect our data from cyber threats?
+                                        Q3. Do you handle shipping?
                                     </button>
                                 </h2>
                                 <div id="collapse3" class="accordion-collapse collapse" aria-labelledby="heading3"
                                     data-bs-parent="#accordion">
                                     <div class="accordion-body">
-                                        <p>Our average response time is within 30 minutes. For critical issues, we
-                                            prioritize immediate resolution to minimize downtime.</p>
+                                        <p>Yes, we provide secure shipping through trusted courier partners across India, bridging the gap between North and South India.</p>
                                     </div>
                                 </div>
                             </div>
@@ -1409,14 +835,13 @@
                                 <h2 class="accordion-header" id="heading4">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                         data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
-                                        Q4. Can you customize your services for our business?
+                                        Q4. How do I make a payment?
                                     </button>
                                 </h2>
                                 <div id="collapse4" class="accordion-collapse collapse" aria-labelledby="heading4"
                                     data-bs-parent="#accordion">
                                     <div class="accordion-body">
-                                        <p>Our average response time is within 30 minutes. For critical issues, we
-                                            prioritize immediate resolution to minimize downtime.</p>
+                                        <p>We support various secure payment methods including UPI, Net Banking, and Bank Transfer to ensure a smooth transaction process.</p>
                                     </div>
                                 </div>
                             </div>
@@ -1427,14 +852,13 @@
                                 <h2 class="accordion-header" id="heading5">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                         data-bs-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
-                                        Q5. Do you provide employee cybersecurity training?
+                                        Q5. Can I return products?
                                     </button>
                                 </h2>
                                 <div id="collapse5" class="accordion-collapse collapse" aria-labelledby="heading5"
                                     data-bs-parent="#accordion">
                                     <div class="accordion-body">
-                                        <p>Our average response time is within 30 minutes. For critical issues, we
-                                            prioritize immediate resolution to minimize downtime.</p>
+                                        <p>Return policies are specified by sellers on each product page. We recommend checking the policy before placing a bulk order.</p>
                                     </div>
                                 </div>
                             </div>

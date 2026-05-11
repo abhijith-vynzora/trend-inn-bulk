@@ -63,25 +63,12 @@ class Category(OptimizedImageModel):
 class Product(OptimizedImageModel):
     image_fields = ["image"]
 
-    UNIT_CHOICES = [
-        ("kg", "Kilogram (kg)"),
-        ("g", "Gram (g)"),
-        ("litre", "Litre (L)"),
-        ("piece", "Piece"),
-        ("box", "Box"),
-        ("bag", "Bag"),
-        ("dozen", "Dozen"),
-        ("meter", "Meter"),
-        ("other", "Other"),
-    ]
-
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="products")
     seller = models.ForeignKey(WholesaleSeller, on_delete=models.CASCADE, related_name="products")
     name = models.CharField(max_length=255)
+    slug = models.SlugField(unique=True, blank=True)
     description = models.TextField(blank=True)
     price_per_unit = models.DecimalField(max_digits=10, decimal_places=2)
-    unit = models.CharField(max_length=20, choices=UNIT_CHOICES, default="piece")
-    stock = models.PositiveIntegerField(default=0)
     image = models.ImageField(upload_to="products/", blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -90,6 +77,17 @@ class Product(OptimizedImageModel):
 
     def __str__(self):
         return f"{self.name} ({self.seller.name})"
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            base_slug = slugify(self.name)
+            slug = base_slug
+            counter = 1
+            while Product.objects.filter(slug=slug).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+            self.slug = slug
+        super().save(*args, **kwargs)
 
 
 class ProductImage(OptimizedImageModel):
