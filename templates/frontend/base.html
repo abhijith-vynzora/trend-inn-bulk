@@ -127,7 +127,7 @@
 
                         <!-- Header Btn Start -->
                         <div class="header-btn">
-                            <a href="{% url 'contact' %}" class="btn-default btn-highlighted">Get a Free Consultation</a>
+                            <a href="{% url 'contact' %}" class="btn-default btn-trend-gradient btn-highlighted">Get a Free Consultation</a>
                         </div>
                         <!-- Header Btn End -->
                     </div>
@@ -241,7 +241,8 @@
 
                         <!-- Footer Copyright Text Start -->
                         <div class="footer-copyright-text">
-                            <p>Copyright © 2025 Trend in Bulk. All Rights Reserved.</p>
+                            <p class="mb-0" style="color: white !important;">&copy; <span id="currentYear"></span> <strong>Trend in Bulk</strong>. All Rights Reserved.</p>
+                            <small style="color: white !important;">Designed by <a href="https://vynzora.com/" target="_blank" style="color: white !important; font-weight: bold; text-decoration: underline;">Vynzora</a></small>
                         </div>
                         <!-- Footer Copyright Text End -->
 
@@ -298,3 +299,11 @@
     <script src="{% static 'js/wow.min.js' %}"></script>
     <!-- Main Custom js file -->
     <script src="{% static 'js/function.js' %}"></script>
+    <script>
+        const currentYearElement = document.getElementById("currentYear");
+        if (currentYearElement) {
+            currentYearElement.textContent = new Date().getFullYear();
+        }
+    </script>
+</body>
+</html>
