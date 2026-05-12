@@ -7503,7 +7503,7 @@ header.main-header .header-sticky.active {
 	border-color: var(--accent-hover) !important;
 }
 /* --- Transparent Navbar Override for Homepage --- */
-.main-header {
+.is-homepage .main-header {
     position: absolute !important;
     top: 0;
     left: 0;
@@ -7512,51 +7512,59 @@ header.main-header .header-sticky.active {
     background: transparent !important;
 }
 
-/* Ensure the sticky version of the header still gets a solid background when scrolling */
-.main-header.sticky {
+.is-homepage .main-header.sticky {
     position: fixed !important;
     background-color: var(--navy-dark) !important;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Make navbar links white by default so they are readable over the dark image */
-.main-header .navbar-nav .nav-link {
+.is-homepage .main-header .navbar-nav .nav-link {
     color: #FFFFFF !important;
 }
 
-/* Revert text color on hover or active states */
-.main-header .navbar-nav .nav-link:hover,
-.main-header .navbar-nav .nav-link.active {
+.is-homepage .main-header .navbar-nav .nav-link:hover,
+.is-homepage .main-header .navbar-nav .nav-link.active {
     color: var(--accent-orange) !important;
 }
 
-/* --- Full-Screen Edge-to-Edge Hero Layout --- */
-body {
+/* --- Full-Screen Edge-to-Edge Hero Layout (Homepage Only) --- */
+.is-homepage {
     margin: 0 !important;
     padding: 0 !important;
-    overflow-x: hidden !important; /* Prevents horizontal scrolling if elements stretch too far */
+    overflow-x: hidden !important; 
 }
 
-.hero {
+.is-homepage .hero {
     min-height: 100vh !important; 
-    width: 100vw !important; /* Forces the section to be exactly the width of the screen */
+    width: 100vw !important; 
     max-width: 100% !important;
     margin: 0 !important;
     padding-top: 100px !important; 
     padding-bottom: 50px !important;
     display: flex !important;
     align-items: center !important; 
-    border-radius: 0 !important; /* Removes the border radius from the hero section */
-    
-    /* Background Image Overrides */
-    background-size: cover !important; /* Ensures the image leaves no empty space */
+    background-size: cover !important; 
     background-position: center center !important;
     background-repeat: no-repeat !important;
 }
 
-/* Ensure the container takes full width for proper flex alignment but keeps content contained */
-.hero > .container {
+.is-homepage .hero > .container {
     width: 100%;
-    max-width: 1320px; /* Standard Bootstrap container max-width to keep text from touching screen edges */
+    max-width: 1320px; 
     margin: 0 auto;
+}
+
+/* --- Mobile Hamburger Menu Contrast Fix --- */
+.slicknav_nav a,
+.slicknav_nav a:hover,
+.slicknav_nav .active a,
+.slicknav_menu .slicknav_item,
+.slicknav_menu .slicknav_item:hover {
+    color: #FFFFFF !important;
+    background-color: transparent !important; /* Prevents blue-on-blue highlighting */
+}
+
+/* Ensure the sub-menus also stay legible */
+.slicknav_nav ul {
+    background-color: var(--navy-dark) !important; 
 }
