@@ -50,7 +50,7 @@
 
                         <!-- Project Content Start -->
                         <div class="project-content">
-                            <h3><a href="{% url 'category_products' category.slug %}">{{ category.name }}</a></h3>
+                            <h3><a href="{% url 'category_products' category.slug %}" class="stretched-link">{{ category.name }}</a></h3>
                             <p>{{ category.description|truncatechars:80 }}</p>
                         </div>
                         <!-- Project Content End -->

@@ -683,19 +683,17 @@
                 <div class="col-xl-3 col-md-6">
                     <div class="team-item wow fadeInUp">
                         <div class="team-image">
-                            <a href="{% url 'team_single' %}" class="image-anime" data-cursor-text="View">
-                                <figure>
-                                    {% if member.image %}
-                                        <img src="{{ member.image.url }}" alt="{{ member.name }}">
-                                    {% else %}
-                                        <img src="{% static 'images/team-1.jpg' %}" alt="{{ member.name }}">
-                                    {% endif %}
-                                </figure>
-                            </a>
+                            <figure class="image-anime">
+                                {% if member.image %}
+                                    <img src="{{ member.image.url }}" alt="{{ member.name }}">
+                                {% else %}
+                                    <img src="{% static 'images/team-1.jpg' %}" alt="{{ member.name }}">
+                                {% endif %}
+                            </figure>
                         </div>
                         <div class="team-body">
                             <div class="team-content">
-                                <h3><a href="{% url 'team_single' %}">{{ member.name }}</a></h3>
+                                <h3>{{ member.name }}</h3>
                                 <p>{{ member.designation }}</p>
                             </div>
                             <div class="team-social-list">
