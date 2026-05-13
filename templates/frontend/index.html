@@ -545,8 +545,13 @@
 
 /* ── MOBILE LARGE (768px – 767px fallback) ── */
 @media (max-width: 767px) {
+    /* Shift hero text block upwards */
+    .tib-hero-main .row.align-items-center {
+        align-items: flex-start !important; 
+    }
+    
     .tib-hero-main {
-        padding: 100px 0 40px;
+        padding: 130px 0 100px !important; /* Pushes content down slightly from header, leaves room at bottom for stats */
     }
     .tib-hero-overlay {
         background: linear-gradient(
@@ -623,22 +628,54 @@
         font-size: 24px;
         margin: 0;
     }
+    /* Stats Bar Adjustments - Pinned to Absolute Bottom */
     .tib-stats-bar {
-        padding: 20px 0;
+        display: block !important; /* CRITICAL FIX: Overrides the display:none from tablet view */
+        position: absolute !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        padding: 15px 0 !important;
+        z-index: 10;
+        /* Adds a dark gradient behind it so the numbers pop against the video */
+        background: linear-gradient(to top, rgba(13, 13, 43, 0.9) 0%, transparent 100%);
     }
+    
     .tib-stats-row {
-        justify-content: flex-start;
-        gap: 12px;
+        flex-wrap: nowrap !important; /* CRITICAL FIX: Forces items onto a single line */
+        justify-content: space-around !important;
+        align-items: flex-start !important;
+        gap: 5px !important;
     }
+    
+    /* Hides the 4th and 5th stats */
+    .tib-stats-row > :nth-child(n+6) {
+        display: none !important;
+    }
+
     .tib-stat-item {
-        min-width: calc(50% - 12px);
-        flex: 0 0 calc(50% - 12px);
+        min-width: auto !important;
+        flex: 1 1 0 !important; /* Distributes width equally among the 3 items */
+        flex-direction: column !important; /* Stacks the icon on top of the text */
+        align-items: center !important;
+        text-align: center !important;
+        gap: 8px !important;
+        padding: 0 !important;
     }
+    
+    .tib-stat-item i {
+        font-size: 22px !important;
+        margin: 0 !important;
+    }
+    
     .tib-stat-content strong {
-        font-size: 20px;
+        font-size: 16px !important; /* Scaled down to fit 3 in a row */
+        margin-bottom: 2px !important;
     }
+    
     .tib-stat-content span {
-        font-size: 12px;
+        font-size: 10px !important;
+        line-height: 1.1 !important;
     }
 }
 
@@ -652,10 +689,6 @@
         padding: 6px 14px;
     }
     /* Hero buttons handled by 767px query */
-    .tib-stat-item {
-        min-width: 100%;
-        flex: 0 0 100%;
-    }
     .tib-stat-content strong {
         font-size: 18px;
     }
