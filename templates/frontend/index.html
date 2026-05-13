@@ -731,23 +731,28 @@
                 </div>
             </div>
 
-            <div class="row services-item-list">
-                {% for category in categories %}
-                <div class="col-xl-3 col-md-6">
-                    <a href="{% url 'category_products' category.slug %}" class="d-block text-decoration-none">
-                        <div class="card-bg-wrapper wow fadeInUp" data-wow-delay="{% cycle '0.1s' '0.3s' '0.5s' '0.7s' %}">
-                            <div class="card-bg-img" style="background-image: url('{% if category.image %}{{ category.image.url }}{% else %}{% static 'images/project-1.jpg' %}{% endif %}');"></div>
-                            <div class="card-bg-overlay"></div>
-                            <div class="card-bg-content">
-                                <h3>{{ category.name }}</h3>
-                                <p>{{ category.description|truncatechars:60 }}</p>
+            <div class="swiper categories-swiper">
+                <div class="swiper-wrapper">
+                    {% for category in categories %}
+                    <div class="swiper-slide">
+                        <a href="{% url 'category_products' category.slug %}" class="d-block text-decoration-none">
+                            <div class="card-bg-wrapper">
+                                <div class="card-bg-img" style="background-image: url('{% if category.image %}{{ category.image.url }}{% else %}{% static 'images/project-1.jpg' %}{% endif %}');"></div>
+                                <div class="card-bg-overlay"></div>
+                                <div class="card-bg-content">
+                                    <h3>{{ category.name }}</h3>
+                                    <p>{{ category.description|truncatechars:60 }}</p>
+                                </div>
                             </div>
-                        </div>
-                    </a>
+                        </a>
+                    </div>
+                    {% empty %}
+                    <div class="swiper-slide">
+                        <p class="text-center">No categories added yet.</p>
+                    </div>
+                    {% endfor %}
                 </div>
-                {% empty %}
-                <p class="text-center w-100">No categories added yet.</p>
-                {% endfor %}
+                <div class="swiper-pagination categories-pagination"></div>
             </div>
         </div>
     </div>
@@ -1570,41 +1575,100 @@
                 </div>
             </div>
 
-            <div class="row">
-                <!-- Post Item List Start -->
-                <div class="post-item-list">
-{% for blog in blogs %}
-                    <div class="post-item wow fadeInUp">
-                        <div class="post-featured-image">
-                            <a href="{% url 'blog_single_slug' blog.slug %}" data-cursor-text="View">
-                                <figure class="image-anime">
-                                    {% if blog.image %}
-                                        <img src="{{ blog.image.url }}" alt="{{ blog.title }}">
-                                    {% else %}
-                                        <img src="{% static 'images/post-1.jpg' %}" alt="{{ blog.title }}">
-                                    {% endif %}
-                                </figure>
-                            </a>
-                            <div class="post-item-tags">
-                                <a href="{% url 'blog_single_slug' blog.slug %}">Blog</a>
+            <div class="swiper blogs-swiper">
+                <div class="swiper-wrapper">
+                    {% for blog in blogs %}
+                    <div class="swiper-slide">
+                        <div class="post-item">
+                            <div class="post-featured-image">
+                                <a href="{% url 'blog_single_slug' blog.slug %}" data-cursor-text="View">
+                                    <figure class="image-anime">
+                                        {% if blog.image %}
+                                            <img src="{{ blog.image.url }}" alt="{{ blog.title }}">
+                                        {% else %}
+                                            <img src="{% static 'images/post-1.jpg' %}" alt="{{ blog.title }}">
+                                        {% endif %}
+                                    </figure>
+                                </a>
+                                <div class="post-item-tags">
+                                    <a href="{% url 'blog_single_slug' blog.slug %}">Blog</a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="post-item-body">
-                            <div class="post-item-content">
-                                <h2><a href="{% url 'blog_single_slug' blog.slug %}">{{ blog.title }}</a></h2>
-                            </div>
-                            <div class="post-item-btn">
-                                <a href="{% url 'blog_single_slug' blog.slug %}" class="readmore-btn">read more</a>
+                            <div class="post-item-body">
+                                <div class="post-item-content">
+                                    <h2><a href="{% url 'blog_single_slug' blog.slug %}">{{ blog.title }}</a></h2>
+                                </div>
+                                <div class="post-item-btn">
+                                    <a href="{% url 'blog_single_slug' blog.slug %}" class="readmore-btn">read more</a>
+                                </div>
                             </div>
                         </div>
                     </div>
-{% empty %}
-<p>No blogs yet.</p>
-{% endfor %}
+                    {% empty %}
+                    <div class="swiper-slide">
+                        <p>No blogs yet.</p>
+                    </div>
+                    {% endfor %}
                 </div>
-                <!-- Post Item List End -->
+                <div class="swiper-pagination blogs-pagination"></div>
             </div>
         </div>
     </div>
     <!-- Our Blog Section End -->
+
+    <script>
+    window.addEventListener('load', function () {
+        new Swiper('.categories-swiper', {
+            loop: true,
+            grabCursor: true,
+            autoplay: { delay: 3500, disableOnInteraction: false },
+            pagination: { el: '.categories-pagination', clickable: true },
+            breakpoints: {
+                576: { slidesPerView: 2, spaceBetween: 20 },
+                992: { slidesPerView: 3, spaceBetween: 24 },
+                1200: { slidesPerView: 4, spaceBetween: 24 },
+            },
+        });
+
+        new Swiper('.blogs-swiper', {
+            loop: true,
+            grabCursor: true,
+            slidesPerView: 1,
+            spaceBetween: 24,
+            autoplay: { delay: 4000, disableOnInteraction: false },
+            pagination: { el: '.blogs-pagination', clickable: true },
+            breakpoints: {
+                768: { slidesPerView: 2, spaceBetween: 24 },
+                1200: { slidesPerView: 3, spaceBetween: 24 },
+            },
+        });
+    });
+    </script>
+
+    <style>
+    .categories-swiper,
+    .blogs-swiper {
+        padding-bottom: 50px;
+    }
+    .categories-pagination,
+    .blogs-pagination {
+        bottom: 0;
+    }
+    .categories-pagination .swiper-pagination-bullet,
+    .blogs-pagination .swiper-pagination-bullet {
+        width: 10px;
+        height: 10px;
+        background: var(--primary-blue);
+        opacity: 0.3;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+    }
+    .categories-pagination .swiper-pagination-bullet-active,
+    .blogs-pagination .swiper-pagination-bullet-active {
+        background: var(--accent-orange);
+        opacity: 1;
+        width: 28px;
+        border-radius: 10px;
+    }
+    </style>
 {% endblock %}

@@ -678,38 +678,41 @@
                 </div>
             </div>
 
-            <div class="row">
-{% for member in team %}
-                <div class="col-xl-3 col-md-6">
-                    <div class="team-item wow fadeInUp">
-                        <div class="team-image">
-                            <figure class="image-anime">
-                                {% if member.image %}
-                                    <img src="{{ member.image.url }}" alt="{{ member.name }}">
-                                {% else %}
-                                    <img src="{% static 'images/team-1.jpg' %}" alt="{{ member.name }}">
-                                {% endif %}
-                            </figure>
-                        </div>
-                        <div class="team-body">
-                            <div class="team-content">
-                                <h3>{{ member.name }}</h3>
-                                <p>{{ member.designation }}</p>
+            <div class="swiper team-swiper">
+                <div class="swiper-wrapper">
+                    {% for member in team %}
+                    <div class="swiper-slide">
+                        <div class="team-item">
+                            <div class="team-image">
+                                <figure class="image-anime">
+                                    {% if member.image %}
+                                        <img src="{{ member.image.url }}" alt="{{ member.name }}">
+                                    {% else %}
+                                        <img src="{% static 'images/team-1.jpg' %}" alt="{{ member.name }}">
+                                    {% endif %}
+                                </figure>
                             </div>
-                            <div class="team-social-list">
-                                <ul>
-                                    {% if member.instagram %}<li><a href="{{ member.instagram }}"><i class="fa-brands fa-instagram"></i></a></li>{% endif %}
-                                    {% if member.facebook %}<li><a href="{{ member.facebook }}"><i class="fa-brands fa-facebook-f"></i></a></li>{% endif %}
-                                    {% if member.twitter %}<li><a href="{{ member.twitter }}"><i class="fa-brands fa-twitter"></i></a></li>{% endif %}
-                                    {% if member.linkedin %}<li><a href="{{ member.linkedin }}"><i class="fa-brands fa-linkedin-in"></i></a></li>{% endif %}
-                                </ul>
+                            <div class="team-body">
+                                <div class="team-content">
+                                    <h3>{{ member.name }}</h3>
+                                    <p>{{ member.designation }}</p>
+                                </div>
+                                <div class="team-social-list">
+                                    <ul>
+                                        {% if member.instagram %}<li><a href="{{ member.instagram }}"><i class="fa-brands fa-instagram"></i></a></li>{% endif %}
+                                        {% if member.facebook %}<li><a href="{{ member.facebook }}"><i class="fa-brands fa-facebook-f"></i></a></li>{% endif %}
+                                        {% if member.twitter %}<li><a href="{{ member.twitter }}"><i class="fa-brands fa-twitter"></i></a></li>{% endif %}
+                                        {% if member.linkedin %}<li><a href="{{ member.linkedin }}"><i class="fa-brands fa-linkedin-in"></i></a></li>{% endif %}
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    {% empty %}
+                    <div class="swiper-slide"><p>No team members yet.</p></div>
+                    {% endfor %}
                 </div>
-{% empty %}
-<p>No team members yet.</p>
-{% endfor %}
+                <div class="swiper-pagination team-pagination"></div>
             </div>
         </div>
     </div>
@@ -988,4 +991,42 @@
         </div>
     </div>
     <!-- Our FAQs Section End -->
+    <script>
+    window.addEventListener('load', function () {
+        new Swiper('.team-swiper', {
+            loop: true,
+            grabCursor: true,
+            autoplay: { delay: 3500, disableOnInteraction: false },
+            pagination: { el: '.team-pagination', clickable: true },
+            breakpoints: {
+                576: { slidesPerView: 2, spaceBetween: 20 },
+                992: { slidesPerView: 3, spaceBetween: 24 },
+                1200: { slidesPerView: 4, spaceBetween: 24 },
+            },
+        });
+    });
+    </script>
+
+    <style>
+    .team-swiper {
+        padding-bottom: 50px;
+    }
+    .team-pagination {
+        bottom: 0;
+    }
+    .team-pagination .swiper-pagination-bullet {
+        width: 10px;
+        height: 10px;
+        background: var(--primary-blue);
+        opacity: 0.3;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+    }
+    .team-pagination .swiper-pagination-bullet-active {
+        background: var(--accent-orange);
+        opacity: 1;
+        width: 28px;
+        border-radius: 10px;
+    }
+    </style>
 {% endblock %}

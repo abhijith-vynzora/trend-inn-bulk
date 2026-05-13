@@ -2619,6 +2619,10 @@ header.main-header .header-sticky.active {
 	width: calc(25% - 22.5px);
 }
 
+.blogs-swiper .post-item {
+    width: 100%;
+}
+
 .post-featured-image {
 	position: relative;
 	margin-bottom: 20px;

@@ -22,15 +22,15 @@ def _admin_required(view_func):
 def home(request):
     return render(request, "frontend/index.html", {
         "testimonials": Testimonial.objects.all()[:6],
-        "blogs": Blog.objects.all()[:4],
-        "categories": Category.objects.all()[:4],
+        "blogs": Blog.objects.all(),
+        "categories": Category.objects.all(),
         "recent_products": Product.objects.select_related('category', 'seller').filter(is_featured=True),
     })
 
 
 def about(request):
     return render(request, "frontend/about.html", {
-        "team": TeamMember.objects.all()[:4],
+        "team": TeamMember.objects.all(),
         "stats": {
             'products': Product.objects.count(),
             'sellers': WholesaleSeller.objects.count(),
