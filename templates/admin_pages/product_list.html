@@ -29,6 +29,7 @@
             <thead class="table-light">
                 <tr>
                     <th>Image</th>
+                    <th>Featured</th>
                     <th>Name</th>
                     <th>Category</th>
                     <th>Seller</th>
@@ -45,6 +46,17 @@
                         {% else %}
                             <img src="https://via.placeholder.com/80x60?text=No+Image" class="img-fluid rounded">
                         {% endif %}
+                    </td>
+                    <td>
+                        <label class="featured-toggle" title="Toggle Featured">
+                            <input
+                                type="checkbox"
+                                class="featured-checkbox"
+                                data-url="{% url 'product_toggle_featured' product.pk %}"
+                                {% if product.is_featured %}checked{% endif %}
+                            >
+                            <span class="featured-slider"></span>
+                        </label>
                     </td>
                     <td>{{ product.name }}</td>
                     <td><span class="badge bg-info text-dark">{{ product.category.name }}</span></td>
@@ -232,6 +244,75 @@ document.addEventListener("DOMContentLoaded", function() {
                 const text = row.textContent.toLowerCase();
                 row.style.display = text.indexOf(value) > -1 ? "" : "none";
             }
+        });
+    });
+});
+</script>
+
+<style>
+.featured-toggle {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+    cursor: pointer;
+}
+
+.featured-toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    position: absolute;
+}
+
+.featured-slider {
+    position: absolute;
+    inset: 0;
+    background: #ccc;
+    border-radius: 24px;
+    transition: 0.3s;
+}
+
+.featured-slider::before {
+    content: "";
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    left: 3px;
+    top: 3px;
+    background: white;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+.featured-toggle input:checked + .featured-slider {
+    background: var(--primary-blue, #1A237E);
+}
+
+.featured-toggle input:checked + .featured-slider::before {
+    transform: translateX(20px);
+}
+</style>
+
+<script>
+document.querySelectorAll('.featured-checkbox').forEach(function(checkbox) {
+    checkbox.addEventListener('change', function() {
+        var url = this.dataset.url;
+        var slider = this.nextElementSibling;
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(function(response) { return response.json(); })
+        .then(function(data) {
+            checkbox.checked = data.is_featured;
+        })
+        .catch(function() {
+            checkbox.checked = !checkbox.checked;
+            alert('Something went wrong. Please try again.');
         });
     });
 });

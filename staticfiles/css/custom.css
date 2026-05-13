@@ -92,7 +92,7 @@
 html,
 body {
 	width: 100%;
-	overflow-x: clip;
+	overflow-x: hidden;
 }
 
 body {
@@ -2518,16 +2518,7 @@ header.main-header .header-sticky.active {
 /************************************/
 
 .our-testimonials-content {
-	position: sticky;
-	top: 90px;
 	padding: 100px 0;
-	align-self: flex-start;
-}
-
-.our-testimonials,
-.our-testimonials .container,
-.our-testimonials .row {
-    overflow: visible !important;
 }
 
 .testimonial-item-box {
@@ -5755,15 +5746,8 @@ header.main-header .header-sticky.active {
 	}
 
 	.our-testimonials-content {
-		position: initial;
 		margin-bottom: 50px;
 		padding: 0;
-	}
-
-	.our-testimonials,
-	.our-testimonials .container,
-	.our-testimonials .row {
-	    overflow: visible !important;
 	}
 
 	.testimonial-item-box {
@@ -6358,12 +6342,6 @@ header.main-header .header-sticky.active {
 
 	.our-testimonials-content {
 		margin-bottom: 30px;
-	}
-
-	.our-testimonials,
-	.our-testimonials .container,
-	.our-testimonials .row {
-	    overflow: visible !important;
 	}
 
 	.testimonial-item {

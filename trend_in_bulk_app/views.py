@@ -24,7 +24,7 @@ def home(request):
         "testimonials": Testimonial.objects.all()[:6],
         "blogs": Blog.objects.all()[:4],
         "categories": Category.objects.all()[:4],
-        "recent_products": Product.objects.select_related('category', 'seller').all()[:4],
+        "recent_products": Product.objects.select_related('category', 'seller').filter(is_featured=True),
     })
 
 
@@ -354,6 +354,17 @@ def product_delete(request, pk):
     if request.method == "POST":
         product.delete()
         messages.success(request, "Product deleted.")
+    return redirect("product_list")
+
+
+@_admin_required
+def product_toggle_featured(request, pk):
+    if request.method == "POST":
+        product = get_object_or_404(Product, pk=pk)
+        product.is_featured = not product.is_featured
+        product.save()
+        from django.http import JsonResponse
+        return JsonResponse({"is_featured": product.is_featured})
     return redirect("product_list")
 
 

@@ -1161,57 +1161,102 @@
                 </div>
             </div>
 
-            <div class="row">
-                {% for product in recent_products %}
-                <div class="col-xl-3 col-md-6">
-                    <!-- Product Item Start -->
-                    <div class="project-item wow fadeInUp" data-wow-delay="0.{{ forloop.counter0|add:1 }}s">
-                        <!-- Product image Start -->
-                        <div class="project-image">
-                            <figure class="image-anime">
-                                {% if product.images.first %}
-                                    <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}">
-                                {% else %}
-                                    <img src="{% static 'images/project-1.jpg' %}" alt="{{ product.name }}">
-                                {% endif %}
-                            </figure>
+            <div class="swiper products-swiper">
+                <div class="swiper-wrapper">
+                    {% for product in recent_products %}
+                    <div class="swiper-slide">
+                        <div class="project-item">
+                            <div class="project-image">
+                                <figure class="image-anime">
+                                    {% if product.images.first %}
+                                        <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}">
+                                    {% else %}
+                                        <img src="{% static 'images/project-1.jpg' %}" alt="{{ product.name }}">
+                                    {% endif %}
+                                </figure>
+                            </div>
+                            <div class="project-btn">
+                                <a href="{% url 'product_detail' product.slug %}">
+                                    <img src="{% static 'images/arrow-white.svg' %}" alt="">
+                                </a>
+                            </div>
+                            <div class="project-content">
+                                <h3><a href="{% url 'product_detail' product.slug %}">{{ product.name }}</a></h3>
+                                <p>Starting from ₹{{ product.price_per_unit }}</p>
+                            </div>
                         </div>
-                        <!-- Product image End -->
-
-                        <!-- Project Button Start -->
-                        <div class="project-btn">
-                            <a href="{% url 'product_detail' product.slug %}">
-                                <img src="{% static 'images/arrow-white.svg' %}" alt="">
-                            </a>
-                        </div>
-                        <!-- Project Button End -->
-
-                        <!-- Project Content Start -->
-                        <div class="project-content">
-                            <h3><a href="{% url 'product_detail' product.slug %}" class="stretched-link">{{ product.name }}</a></h3>
-                            <p>Starting from ₹{{ product.price_per_unit }}</p>
-                        </div>
-                        <!-- Project Content End -->
                     </div>
-                    <!-- Product Item End -->
-                </div>
-                {% empty %}
-                <div class="col-lg-12 text-center">
-                    <p>No products available yet.</p>
-                </div>
-                {% endfor %}
-
-                <div class="col-lg-12">
-                    <!-- Section Footer Text Start -->
-                    <div class="section-footer-text wow fadeInUp" data-wow-delay="0.8s">
-                        <p><span><img src="{% static 'images/icon-phone-white.svg' %}" alt=""></span> Start your bulk order today. <a href="{% url 'contact' %}">Contact Us Now!</a></p>
+                    {% empty %}
+                    <div class="swiper-slide">
+                        <p class="text-center">No featured products yet. Mark products as featured from the admin dashboard.</p>
                     </div>
-                    <!-- Section Footer Text End -->
+                    {% endfor %}
                 </div>
+                <div class="swiper-pagination products-pagination"></div>
+            </div>
+
+            <div class="section-footer-text wow fadeInUp" style="margin-top: 40px;">
+                <p><span><img src="{% static 'images/icon-phone-white.svg' %}" alt=""></span> Start your bulk order today. <a href="{% url 'contact' %}">Contact Us Now!</a></p>
             </div>
         </div>
     </div>
     <!-- Featured Products Section End -->
+
+    <script>
+    window.addEventListener('load', function () {
+        new Swiper('.products-swiper', {
+            loop: true,
+            slidesPerView: 1,
+            spaceBetween: 24,
+            grabCursor: true,
+            autoplay: {
+                delay: 3000,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: '.products-pagination',
+                clickable: true,
+            },
+            breakpoints: {
+                576: {
+                    slidesPerView: 2,
+                },
+                992: {
+                    slidesPerView: 3,
+                },
+                1200: {
+                    slidesPerView: 4,
+                },
+            },
+        });
+    });
+    </script>
+
+    <style>
+    .products-swiper {
+        padding-bottom: 50px;
+    }
+
+    .products-pagination {
+        bottom: 0;
+    }
+
+    .products-pagination .swiper-pagination-bullet {
+        width: 10px;
+        height: 10px;
+        background: var(--primary-blue);
+        opacity: 0.3;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+    }
+
+    .products-pagination .swiper-pagination-bullet-active {
+        background: var(--accent-orange);
+        opacity: 1;
+        width: 28px;
+        border-radius: 10px;
+    }
+    </style>
 
 
     <!-- Our FAQs Section Start -->
@@ -1376,7 +1421,7 @@
     <!-- Our Testimonials Section Start -->
     <div class="our-testimonials bg-section">
         <div class="container">
-            <div class="row">
+            <div class="row align-items-center">
                 <div class="col-xl-6">
                     <!-- Our Testimonials Content Start -->
                     <div class="our-testimonials-content">
@@ -1401,49 +1446,106 @@
                 </div>
 
                 <div class="col-xl-6">
-                    <!-- Testimonial Slider Start -->
-                    <div class="testimonial-item-box">
-{% for testimonial in testimonials %}
-                        <div class="testimonial-item">
-                            <div class="testimonial-header">
-                                <div class="testimonial-quote">
-                                    <img src="{% static 'images/testimonial-quote.svg' %}" alt="">
-                                </div>
-                                <div class="testimonials-rating">
-                                    {% for i in "12345" %}
-                                        <i class="fa-solid fa-star"></i>
-                                    {% endfor %}
+                    <!-- Testimonial Swiper Start -->
+                    <div class="swiper testimonial-swiper">
+                        <div class="swiper-wrapper">
+                            {% for testimonial in testimonials %}
+                            <div class="swiper-slide">
+                                <div class="testimonial-item">
+                                    <div class="testimonial-header">
+                                        <div class="testimonial-quote">
+                                            <img src="{% static 'images/testimonial-quote.svg' %}" alt="">
+                                        </div>
+                                        <div class="testimonials-rating">
+                                            {% for i in "12345" %}
+                                                <i class="fa-solid fa-star"></i>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <div class="testimonial-content">
+                                        <p>{{ testimonial.message }}</p>
+                                    </div>
+                                    <div class="testimonial-author">
+                                        <div class="author-image">
+                                            <figure class="image-anime">
+                                                {% if testimonial.image %}
+                                                    <img src="{{ testimonial.image.url }}" alt="{{ testimonial.name }}">
+                                                {% else %}
+                                                    <img src="{% static 'images/author-1.jpg' %}" alt="{{ testimonial.name }}">
+                                                {% endif %}
+                                            </figure>
+                                        </div>
+                                        <div class="author-content">
+                                            <h3>{{ testimonial.name }}</h3>
+                                            <p>{{ testimonial.designation }}</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="testimonial-content">
-                                <p>{{ testimonial.message }}</p>
+                            {% empty %}
+                            <div class="swiper-slide">
+                                <p>No testimonials yet.</p>
                             </div>
-                            <div class="testimonial-author">
-                                <div class="author-image">
-                                    <figure class="image-anime">
-                                        {% if testimonial.image %}
-                                            <img src="{{ testimonial.image.url }}" alt="{{ testimonial.name }}">
-                                        {% else %}
-                                            <img src="{% static 'images/author-1.jpg' %}" alt="{{ testimonial.name }}">
-                                        {% endif %}
-                                    </figure>
-                                </div>
-                                <div class="author-content">
-                                    <h3>{{ testimonial.name }}</h3>
-                                    <p>{{ testimonial.designation }}</p>
-                                </div>
-                            </div>
+                            {% endfor %}
                         </div>
-{% empty %}
-<p>No testimonials yet.</p>
-{% endfor %}
+                        <!-- Pagination Dots -->
+                        <div class="swiper-pagination testimonial-pagination"></div>
                     </div>
-                    <!-- Testimonial Slider End -->
+                    <!-- Testimonial Swiper End -->
                 </div>
             </div>
         </div>
     </div>
     <!-- Our Testimonials Section End -->
+
+    <script>
+        window.addEventListener('load', function () {
+            var testimonialSwiper = new Swiper('.testimonial-swiper', {
+                loop: true,
+                slidesPerView: 1,
+                spaceBetween: 30,
+                autoplay: {
+                    delay: 4000,
+                    disableOnInteraction: false,
+                },
+                pagination: {
+                    el: '.testimonial-pagination',
+                    clickable: true,
+                },
+                grabCursor: true,
+            });
+        });
+    </script>
+
+    <style>
+    .testimonial-swiper {
+        padding-bottom: 50px;
+    }
+
+    .testimonial-swiper .testimonial-item {
+        width: 100%;
+    }
+
+    .testimonial-pagination {
+        bottom: 0;
+    }
+
+    .testimonial-pagination .swiper-pagination-bullet {
+        width: 10px;
+        height: 10px;
+        background: var(--primary-blue);
+        opacity: 0.3;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+    }
+
+    .testimonial-pagination .swiper-pagination-bullet-active {
+        background: var(--accent-orange);
+        opacity: 1;
+        width: 28px;
+        border-radius: 10px;
+    }
+    </style>
 
     <!-- Our Blog Section Start -->
     <div class="our-blog">

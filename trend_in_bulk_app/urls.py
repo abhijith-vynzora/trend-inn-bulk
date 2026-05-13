@@ -38,6 +38,7 @@ urlpatterns = [
     path("dashboard/products/add/", views.product_create, name="product_create"),
     path("dashboard/products/<int:pk>/edit/", views.product_update, name="product_update"),
     path("dashboard/products/<int:pk>/delete/", views.product_delete, name="product_delete"),
+    path("dashboard/products/<int:pk>/toggle-featured/", views.product_toggle_featured, name="product_toggle_featured"),
     path("dashboard/products/images/<int:pk>/delete/", views.product_image_delete, name="product_image_delete"),
     path("dashboard/blogs/", views.blog_list, name="blog_list"),
     path("dashboard/blogs/add/", views.blog_create, name="blog_create"),
