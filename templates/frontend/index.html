@@ -1113,7 +1113,7 @@
     {% endfor %}
     <!-- Premium Luxury Showcase End -->
 
-    <!-- Pinned Jewellery Experience Start -->
+    {% comment %} <!-- Pinned Jewellery Experience Start -->
     {% for category in categories %}
     {% if category.name == 'Jewellery' %}
     {% with split_category=category %}
@@ -1534,7 +1534,7 @@
     </section>
     {% endwith %}
     {% endif %}
-    {% endfor %}
+    {% endfor %} {% endcomment %}
 
     <!-- Why Choose Us Section Start -->
     <div class="why-choose-us">
